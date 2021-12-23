@@ -7,33 +7,33 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://devOpsAdminAdem:5hxNkW2Nq7ZnzDE@azure-postgres-prisma.postgres.database.azure.com:5432/tapd?schema=public"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  created_at   DateTime?     @default(now())
-  updated_at   DateTime?
-  email        String        @unique @default("")
-  password     String?
-	Tasks Task[]
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @default(now())
+  updated_at DateTime?
+  email      String    @unique @default("")
+  password   String?
+  Tasks      Task[]
 
-	@@map("user")
+  @@map("user")
 }
 
 model Task {
-  id           Int           @id @default(autoincrement())
-  created_at   DateTime?     @default(now())
-  updated_at   DateTime?
-  title String
-	description DateTime
-	startTime DateTime
-	estimatedEndTime DateTime
-	actualEndTime DateTime
-	breakEndTime DateTime
-	estimatedWorkDurationToActualWorkDurationRatio Float
-	userId Int
-	User User @relation(fields: [userId], references: [id])
+  id                                             Int       @id @default(autoincrement())
+  created_at                                     DateTime? @default(now())
+  updated_at                                     DateTime?
+  title                                          String
+  description                                    String
+  startTime                                      DateTime
+  estimatedEndTime                               DateTime
+  actualEndTime                                  DateTime
+  breakEndTime                                   DateTime
+  estimatedWorkDurationToActualWorkDurationRatio Float
+  userId                                         Int
+  User                                           User      @relation(fields: [userId], references: [id])
 
 
 }

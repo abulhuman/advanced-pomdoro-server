@@ -1,38 +1,53 @@
+scalar DateTime
 type Query {
-	getAllTasks: [Task]!
+  getAllTasks: [Task]!
 }
 
 type Mutation {
-	createNewTask(params: TaskCreateInput!)
+  createNewTask(newTaskParams: TaskCreateInput!): Task!
+  finalizeTask(finalizeTaskParams: TaskFinalizeInput!): Task!
+  signup(signupParams: UserInput!): User!
+  signin(signInParams: UserInput!): User!
+  resetPassword(resetPasswordParams: UserInput!): User!
+  signout: Boolean!
 }
 
 type User {
-	id: ID!
-	email: String!
-	password: String!
-	Tasks: [Task]!
+  id: ID!
+  email: String!
+  password: String!
+  Tasks: [Task]!
 }
 
 type Task {
-	id: ID!
-	created_at: timestamp!
-	title: String!
-	description: String!
-	startTime: timestamp!
-  estimatedEndTime: timestamp!
-  actualEndTime: timestamp!
-  breakEndTime: timestamp!
-  estimatedWorkDurationToActualWorkDurationRatio: float!
-	User: User
+  id: ID!
+  created_at: DateTime!
+  title: String!
+  description: String!
+  startTime: DateTime!
+  estimatedEndTime: DateTime!
+  actualEndTime: DateTime!
+  breakEndTime: DateTime!
+  estimatedWorkDurationToActualWorkDurationRatio: Float!
+  User: User
 }
 
 input TaskCreateInput {
-	title: String!
-	description: String!
-	startTime: timestamp!
-  estimatedEndTime: timestamp!
-  actualEndTime: timestamp!
-  breakEndTime: timestamp!
-  estimatedWorkDurationToActualWorkDurationRatio: float!
-	userId: ID!
+  title: String!
+  description: String!
+  startTime: DateTime!
+  estimatedEndTime: DateTime!
+  userId: ID!
+}
+
+input TaskFinalizeInput {
+  id: ID!
+  actualEndTime: DateTime!
+  breakEndTime: DateTime!
+  estimatedWorkDurationToActualWorkDurationRatio: Float!
+}
+
+input UserInput {
+  email: String!
+  password: String!
 }
