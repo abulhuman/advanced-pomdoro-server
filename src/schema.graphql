@@ -1,0 +1,38 @@
+type Query {
+	getAllTasks: [Task]!
+}
+
+type Mutation {
+	createNewTask(params: TaskCreateInput!)
+}
+
+type User {
+	id: ID!
+	email: String!
+	password: String!
+	Tasks: [Task]!
+}
+
+type Task {
+	id: ID!
+	created_at: timestamp!
+	title: String!
+	description: String!
+	startTime: timestamp!
+  estimatedEndTime: timestamp!
+  actualEndTime: timestamp!
+  breakEndTime: timestamp!
+  estimatedWorkDurationToActualWorkDurationRatio: float!
+	User: User
+}
+
+input TaskCreateInput {
+	title: String!
+	description: String!
+	startTime: timestamp!
+  estimatedEndTime: timestamp!
+  actualEndTime: timestamp!
+  breakEndTime: timestamp!
+  estimatedWorkDurationToActualWorkDurationRatio: float!
+	userId: ID!
+}

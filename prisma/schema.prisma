@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://devOpsAdminAdem:5hxNkW2Nq7ZnzDE@azure-postgres-prisma.postgres.database.azure.com:5432/tapd?schema=public"
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  created_at   DateTime?     @default(now())
+  updated_at   DateTime?
+  email        String        @unique @default("")
+  password     String?
+	Tasks Task[]
+
+	@@map("user")
+}
+
+model Task {
+  id           Int           @id @default(autoincrement())
+  created_at   DateTime?     @default(now())
+  updated_at   DateTime?
+  title String
+	description DateTime
+	startTime DateTime
+	estimatedEndTime DateTime
+	actualEndTime DateTime
+	breakEndTime DateTime
+	estimatedWorkDurationToActualWorkDurationRatio Float
+	userId Int
+	User User @relation(fields: [userId], references: [id])
+
+
+}
