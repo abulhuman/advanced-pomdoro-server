@@ -5,6 +5,7 @@ function createNewTask(_parent, args, { prisma, req }) {
   if (!getUserId(req)) return;
   const TaskCreateInput = {
     ...args.newTaskParams,
+    done: false,
     User: {
       connect: {
         id: parseInt(args.newTaskParams.userId)
@@ -26,16 +27,15 @@ function finalizeTask(_parent, args, { prisma, req }) {
     data: TaskFinalizeInput
   });
 }
-async function signup(_parent, args, { prisma }) {
-  const hashedPassword = await bcrypt.hash(args.password, 10);
-
+async function signup(_parent, { signupParams }, { prisma }) {
   const user = prisma.user.create({
     data: {
-      email: String(args.email).toLowerCase(),
-      password: hashedPassword
+      email: String(signupParams.email).toLowerCase(),
+      password: await bcrypt.hash(signupParams.password, 10)
     }
   });
-  return user;
+  const { created_at, updated_at, password, ...AuthPayload } = user;
+  return AuthPayload;
 }
 async function signin(_parent, args, { prisma, req }) {
   const user = await prisma.user.findUnique({
@@ -49,7 +49,8 @@ async function signin(_parent, args, { prisma, req }) {
   );
   if (!validUser) throw new UserInputError('Wrong password');
   req.session.userId = user.id;
-  return user;
+  const { created_at, updated_at, password, ...AuthPayload } = user;
+  return AuthPayload;
 }
 async function resetPassword(
   _parent,
@@ -58,10 +59,12 @@ async function resetPassword(
 ) {
   if (!getUserId(req)) throw new ForbiddenError();
   const hashedPassword = await bcrypt.hash(resetPasswordParams.password, 10);
-  return await prisma.user.update({
+  const user = await prisma.user.update({
     where: { email: String(resetPasswordParams.email).toLowerCase() },
     data: { password: hashedPassword, updated_at: new Date() }
   });
+  const { created_at, updated_at, password, ...AuthPayload } = user;
+  return AuthPayload;
 }
 function signout(_parent, args, { req }) {
   if (!getUserId(req)) return;
