@@ -4,7 +4,8 @@
   "description": "A simple app to track tasks by The Advanced Pomodoro technique proposed by Dr. Justin Sung.",
   "main": "src/app.js",
   "scripts": {
-    "start": "nodemon src/app.js"
+    "start": "nodemon src/app.js",
+    "serve": "node src/app.js"
   },
   "repository": {
     "type": "git",
