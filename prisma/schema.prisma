@@ -27,11 +27,13 @@ model Task {
   updated_at                                     DateTime?
   title                                          String
   description                                    String
-  startTime                                      DateTime
-  estimatedEndTime                               DateTime
-  actualEndTime                                  DateTime
-  breakEndTime                                   DateTime
-  estimatedWorkDurationToActualWorkDurationRatio Float
+  done                                           Boolean   @default(false)
+  durationInMinutes                              Int       @default(90)
+  startTime                                      DateTime?
+  estimatedEndTime                               DateTime?
+  actualEndTime                                  DateTime?
+  breakEndTime                                   DateTime?
+  estimatedWorkDurationToActualWorkDurationRatio Float?
   userId                                         Int
   User                                           User      @relation(fields: [userId], references: [id])
 

@@ -1,15 +1,21 @@
 scalar DateTime
 type Query {
   getAllTasks: [Task]!
+  getTask(id: ID): Task!
 }
 
 type Mutation {
   createNewTask(newTaskParams: TaskCreateInput!): Task!
   finalizeTask(finalizeTaskParams: TaskFinalizeInput!): Task!
-  signup(signupParams: UserInput!): User!
-  signin(signInParams: UserInput!): User!
-  resetPassword(resetPasswordParams: UserInput!): User!
+  signup(signupParams: UserInput!): AuthPayload!
+  signin(signInParams: UserInput!): AuthPayload!
+  resetPassword(resetPasswordParams: UserInput!): AuthPayload!
   signout: Boolean!
+}
+
+type AuthPayload {
+  id: ID!
+  email: String!
 }
 
 type User {
@@ -24,24 +30,26 @@ type Task {
   created_at: DateTime!
   title: String!
   description: String!
-  startTime: DateTime!
-  estimatedEndTime: DateTime!
-  actualEndTime: DateTime!
-  breakEndTime: DateTime!
-  estimatedWorkDurationToActualWorkDurationRatio: Float!
+  done: Boolean!
+  durationInMinutes: Int!
+  startTime: DateTime
+  estimatedEndTime: DateTime
+  actualEndTime: DateTime
+  breakEndTime: DateTime
+  estimatedWorkDurationToActualWorkDurationRatio: Float
   User: User
 }
 
 input TaskCreateInput {
   title: String!
   description: String!
-  startTime: DateTime!
-  estimatedEndTime: DateTime!
+  durationInMinutes: Int!
   userId: ID!
 }
 
 input TaskFinalizeInput {
   id: ID!
+  done: Boolean!
   actualEndTime: DateTime!
   breakEndTime: DateTime!
   estimatedWorkDurationToActualWorkDurationRatio: Float!
