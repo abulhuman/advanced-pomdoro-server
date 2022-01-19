@@ -17,7 +17,6 @@ const fs = require('fs');
 const path = require('path');
 const history = require('connect-history-api-fallback');
 
-
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
 const User = require('./resolvers/User');
@@ -36,7 +35,7 @@ const corsOptions = {
   credentials: true,
   origin: [
     `http://${process.env.HOSTNAME}:${process.env.PORT}`,
-    `http://localhost:8080/`
+    `http://localhost:8080`
   ]
 };
 
@@ -92,9 +91,9 @@ async function startApolloServer() {
   server.applyMiddleware({ app, cors: corsOptions });
 
   /** start server and listen for connections using the express application */
-  await new Promise((resolve) => app.listen({ port: 6969 }, resolve));
+  await new Promise((resolve) => app.listen({ port: 3000 }, resolve));
 
-  console.log(`🚀 Server ready at http://localhost:6969${server.graphqlPath}`);
+  console.log(`🚀 Server ready at http://localhost:3000${server.graphqlPath}`);
 
   return { server, app };
 }

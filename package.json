@@ -31,5 +31,9 @@
     "express-session": "^1.17.2",
     "graphql": "^15.8.0",
     "moment": "^2.29.1"
+  },
+  "nodemonConfig": {
+    "name": "nodemon",
+    "ext": "js,mjs,json,graphql"
   }
 }
